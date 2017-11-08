@@ -25,7 +25,7 @@ class getCars:
 
    def connectDB(self):
 
-	   return  lite.connect('bytbil.com.sqlite')
+	   return  lite.connect('/home/mcrae/bytbil.com/bytbil.com.sqlite')
 
 
    def getPage(self, url):
@@ -119,12 +119,12 @@ if __name__ == "__main__":
             except Exception as e:
                
                # print e
-               # print link
+               print link
                stop = True
 
    db.commit()
 
-   out = open('get_cars_log.csv', 'a')
+   out = open('/home/mcrae/bytbil.com/get_cars_log.csv', 'a')
    out.write(currentDate + "," + str(c) + '\n')
    # print currentDate + "," + str(c) + " new links found"
 
