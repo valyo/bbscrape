@@ -2,7 +2,7 @@
 
 PYTHON=$(which python)
 
-$PYTHON $HOME/bytbil.com/get_cars.py
+$PYTHON $HOME/bytbil.com/get_cars.py 
 # TODO
 # if the above command succeeded
 # make a copy of the DB file with today's date in the filename 
