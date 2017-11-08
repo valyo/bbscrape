@@ -1,8 +1,9 @@
 #!/bin/bash
 
 PYTHON=$(which python)
+WDIR="$HOME/bytbil.com"
 
-$PYTHON $HOME/bytbil.com/get_cars.py 
+$PYTHON $WDIR/get_cars.py > $WDIR/cron.log 2> $WDIR/cron.err
 # TODO
 # if the above command succeeded
 # make a copy of the DB file with today's date in the filename 
