@@ -167,159 +167,160 @@ def get_main_details():
 # them
 #################################
 
-extras = soup.find("div", class_="uk-grid uk-grid-width-medium-1-3").find_all('li')
-# print len(extras)
-for e in extras:
-   # print e.string
-   match = re.search('abs', e.string, flags=re.IGNORECASE)
-   if match:
-      info['abs'] = "1"
-   
-   match = re.search('Klimatanl', e.string, flags=re.IGNORECASE)
-   if match:
-      info['klima'] = "1"
-   
-   match = re.search('Dragkrok', e.string, flags=re.IGNORECASE)
-   if match:
-      info['dragkrok'] = "1"
-   
-   match = re.search('Elhissar', e.string, flags=re.IGNORECASE)
-   if match:
-      info['elhissar'] = "1"
-   
-   match = re.search('Elspeglar', e.string, flags=re.IGNORECASE)
-   if match:
-      info['elspeglar'] = "1"
-   
-   match = re.search('Farth.llare', e.string, flags=re.IGNORECASE)
-   if match:
-      info['farthallare'] = "1"
-   
-   match = re.search('c-l.s', e.string, flags=re.IGNORECASE)
-   if match:
-      info['c-las'] = "1"
-   
-   match = re.search('F.rddator', e.string, flags=re.IGNORECASE)
-   if match:
-      info['fdator'] = "1"
-   
-   match = re.search('LM-f.lgar', e.string, flags=re.IGNORECASE)
-   if match:
-      info['alufalg'] = "1"
-   
-   match = re.search('Multifunktionsratt', e.string, flags=re.IGNORECASE)
-   if match:
-      info['multifunktionsratt'] = "1"
-   
-   match = re.search('Servostyrning|servo.*', e.string, flags=re.IGNORECASE)
-   if match:
-      info['servo'] = "1"
-   
-   match = re.search('Stolv.rme.*fram|Eluppv.rmda stolar fram', e.string, flags=re.IGNORECASE)
-   if match:
-      info['stolv-fram'] = "1"
-   
-   match = re.search('Svensks.ld', e.string, flags=re.IGNORECASE)
-   if match:
-      info['svensks'] = "1"
-   
-   match = re.search('Yttertemperaturm.tare', e.string, flags=re.IGNORECASE)
-   if match:
-      info['ytempm'] = "1"
-   
-   match = re.search('Muggh.llare', e.string, flags=re.IGNORECASE)
-   if match:
-      info['muggh'] = "1"
-   
-   match = re.search('Spoilerljus|dimljus', e.string, flags=re.IGNORECASE)
-   if match:
-      info['dimljus'] = "1"
-   
-   match = re.search('rattv.rme|Eluppv.rmd ratt', e.string, flags=re.IGNORECASE)
-   if match:
-      info['rattv'] = "1"
-   
-   match = re.search('Led.str.*lkastare', e.string, flags=re.IGNORECASE)
-   if match:
-      info['ledheadl'] = "1"
-           
-   match = re.search('l.der|skin', e.string, flags=re.IGNORECASE)
-   if match:
-      info['skin'] = "1"
+def get_equipment():
+   extras = soup.find("div", class_="uk-grid uk-grid-width-medium-1-3").find_all('li')
+   # print len(extras)
+   for e in extras:
+      # print e.string
+      match = re.search('abs', e.string, flags=re.IGNORECASE)
+      if match:
+         info['abs'] = "1"
 
-   match = re.search('glas*taklucka', e.string, flags=re.IGNORECASE)
-   if match:
-      info['lucka'] = "1"
+      match = re.search('Klimatanl', e.string, flags=re.IGNORECASE)
+      if match:
+         info['klima'] = "1"
 
-   match = re.search('Parkering.*bak|Backkamera|Parkeringspaket', e.string, flags=re.IGNORECASE)
-   if match:
-      info['parkassist'] = "1"
+      match = re.search('Dragkrok', e.string, flags=re.IGNORECASE)
+      if match:
+         info['dragkrok'] = "1"
 
-   match = re.search('Start.*Stop.*funktion', e.string, flags=re.IGNORECASE)
-   if match:
-      info['startstop'] = "1"
+      match = re.search('Elhissar', e.string, flags=re.IGNORECASE)
+      if match:
+         info['elhissar'] = "1"
 
-   match = re.search('.*stol.*minne.*', e.string, flags=re.IGNORECASE)
-   if match:
-      info['stolminne'] = "1"
+      match = re.search('Elspeglar', e.string, flags=re.IGNORECASE)
+      if match:
+         info['elspeglar'] = "1"
 
-   match = re.search('Bluetooth', e.string, flags=re.IGNORECASE)
-   if match:
-      info['bluetooth'] = "1"
+      match = re.search('Farth.llare', e.string, flags=re.IGNORECASE)
+      if match:
+         info['farthallare'] = "1"
 
-   match = re.search('Larm', e.string, flags=re.IGNORECASE)
-   if match:
-      info['larm'] = "1"
+      match = re.search('c-l.s', e.string, flags=re.IGNORECASE)
+      if match:
+         info['c-las'] = "1"
 
-   match = re.search('Motorv.rmare', e.string, flags=re.IGNORECASE)
-   if match:
-      info['motorv'] = "1"
+      match = re.search('F.rddator', e.string, flags=re.IGNORECASE)
+      if match:
+         info['fdator'] = "1"
 
-   match = re.search('Rails', e.string, flags=re.IGNORECASE)
-   if match:
-      info['rails'] = "1"
+      match = re.search('LM-f.lgar', e.string, flags=re.IGNORECASE)
+      if match:
+         info['alufalg'] = "1"
 
-   match = re.search('Vinterhjul.*friktion', e.string, flags=re.IGNORECASE)
-   if match:
-      info['vinterd-fr'] = "1"
+      match = re.search('Multifunktionsratt', e.string, flags=re.IGNORECASE)
+      if match:
+         info['multifunktionsratt'] = "1"
 
-   match = re.search('Vinterhjul.*dub.*|Vinterhjul', e.string, flags=re.IGNORECASE)
-   if match:
-   	  if not info['vinterd-fr'] == "1":
-   	  	info['vinterd-d'] = "1"
+      match = re.search('Servostyrning|servo.*', e.string, flags=re.IGNORECASE)
+      if match:
+         info['servo'] = "1"
 
-   match = re.search('Antisladd', e.string, flags=re.IGNORECASE)
-   if match:
-      info['antisladd'] = "1"
+      match = re.search('Stolv.rme.*fram|Eluppv.rmda stolar fram', e.string, flags=re.IGNORECASE)
+      if match:
+         info['stolv-fram'] = "1"
 
-   match = re.search('Antispinn', e.string, flags=re.IGNORECASE)
-   if match:
-      info['antispinn'] = "1"
+      match = re.search('Svensks.ld', e.string, flags=re.IGNORECASE)
+      if match:
+         info['svensks'] = "1"
 
-   match = re.search('Regnsensor', e.string, flags=re.IGNORECASE)
-   if match:
-      info['regnsensor'] = "1"
+      match = re.search('Yttertemperaturm.tare', e.string, flags=re.IGNORECASE)
+      if match:
+         info['ytempm'] = "1"
 
-   match = re.search('Xenon.*', e.string, flags=re.IGNORECASE)
-   if match:
-      info['xenon'] = "1"
+      match = re.search('Muggh.llare', e.string, flags=re.IGNORECASE)
+      if match:
+         info['muggh'] = "1"
 
-   match = re.search('Airbag', e.string, flags=re.IGNORECASE)
-   if match:
-      info['airbag'] = "1"
+      match = re.search('Spoilerljus|dimljus', e.string, flags=re.IGNORECASE)
+      if match:
+         info['dimljus'] = "1"
 
-   match = re.search('Navigator|GPS|navi', e.string, flags=re.IGNORECASE)
-   if match:
-      info['gps'] = "1"
+      match = re.search('rattv.rme|Eluppv.rmd ratt', e.string, flags=re.IGNORECASE)
+      if match:
+         info['rattv'] = "1"
 
-   match = re.search('keyless', e.string, flags=re.IGNORECASE)
-   if match:
-      info['keyless'] = "1"
+      match = re.search('Led.str.*lkastare', e.string, flags=re.IGNORECASE)
+      if match:
+         info['ledheadl'] = "1"
 
-   match = re.search('Laddhybrid', e.string, flags=re.IGNORECASE)
-   if match:
-      info['laddhybrid'] = "1"
-   # Tracer()()
+      match = re.search('l.der|skin', e.string, flags=re.IGNORECASE)
+      if match:
+         info['skin'] = "1"
+
+      match = re.search('glas*taklucka', e.string, flags=re.IGNORECASE)
+      if match:
+         info['lucka'] = "1"
+
+      match = re.search('Parkering.*bak|Backkamera|Parkeringspaket', e.string, flags=re.IGNORECASE)
+      if match:
+         info['parkassist'] = "1"
+
+      match = re.search('Start.*Stop.*funktion', e.string, flags=re.IGNORECASE)
+      if match:
+         info['startstop'] = "1"
+
+      match = re.search('.*stol.*minne.*', e.string, flags=re.IGNORECASE)
+      if match:
+         info['stolminne'] = "1"
+
+      match = re.search('Bluetooth', e.string, flags=re.IGNORECASE)
+      if match:
+         info['bluetooth'] = "1"
+
+      match = re.search('Larm', e.string, flags=re.IGNORECASE)
+      if match:
+         info['larm'] = "1"
+
+      match = re.search('Motorv.rmare', e.string, flags=re.IGNORECASE)
+      if match:
+         info['motorv'] = "1"
+
+      match = re.search('Rails', e.string, flags=re.IGNORECASE)
+      if match:
+         info['rails'] = "1"
+
+      match = re.search('Vinterhjul.*friktion', e.string, flags=re.IGNORECASE)
+      if match:
+         info['vinterd-fr'] = "1"
+
+      match = re.search('Vinterhjul.*dub.*|Vinterhjul', e.string, flags=re.IGNORECASE)
+      if match:
+   	     if not info['vinterd-fr'] == "1":
+   	  	    info['vinterd-d'] = "1"
+
+      match = re.search('Antisladd', e.string, flags=re.IGNORECASE)
+      if match:
+         info['antisladd'] = "1"
+
+      match = re.search('Antispinn', e.string, flags=re.IGNORECASE)
+      if match:
+         info['antispinn'] = "1"
+
+      match = re.search('Regnsensor', e.string, flags=re.IGNORECASE)
+      if match:
+         info['regnsensor'] = "1"
+
+      match = re.search('Xenon.*', e.string, flags=re.IGNORECASE)
+      if match:
+         info['xenon'] = "1"
+
+      match = re.search('Airbag', e.string, flags=re.IGNORECASE)
+      if match:
+         info['airbag'] = "1"
+
+      match = re.search('Navigator|GPS|navi', e.string, flags=re.IGNORECASE)
+      if match:
+         info['gps'] = "1"
+
+      match = re.search('keyless', e.string, flags=re.IGNORECASE)
+      if match:
+         info['keyless'] = "1"
+
+      match = re.search('Laddhybrid', e.string, flags=re.IGNORECASE)
+      if match:
+         info['laddhybrid'] = "1"
+      # Tracer()()
 
 
 
