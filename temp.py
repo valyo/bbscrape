@@ -71,10 +71,11 @@ soup = BeautifulSoup(data, "html.parser")
 # find price
 #################################
 
-price = soup.find("span", class_="car-price-details").get_text().strip()
-price = price.split()[0]+price.split()[1]
-# print "Pris," + price
-info['pris'] = price
+def get_price():
+   price = soup.find("span", class_="car-price-details").get_text().strip()
+   price = price.split()[0]+price.split()[1]
+   # print "Pris," + price
+   info['pris'] = price
 
 
 
@@ -83,84 +84,87 @@ info['pris'] = price
 # find the main details
 #################################
 
-details = soup.find("div", class_="object-info-box equipment-list-equal")
-for d in details.find_all('dl'):
-    # print list(d.children)[3].string + ',' + list(d.children)[1].string
-    match = re.search('M.rke', list(d.children)[3].string, flags=re.IGNORECASE)
-    if match:
-    	key = 'make'
+def get_main_details():
 
-    match = re.search('Modell', list(d.children)[3].string, flags=re.IGNORECASE)
-    if match:
-    	key = 'model'
+   details = soup.find("div", class_="object-info-box equipment-list-equal")
+   for d in details.find_all('dl'):
+       # print list(d.children)[3].string + ',' + list(d.children)[1].string
+       match = re.search('M.rke', list(d.children)[3].string, flags=re.IGNORECASE)
+       if match:
+          key = 'make'
 
-    match = re.search('.rsmodell', list(d.children)[3].string, flags=re.IGNORECASE)
-    if match:
-    	key = 'year'
+       match = re.search('Modell', list(d.children)[3].string, flags=re.IGNORECASE)
+       if match:
+          key = 'model'
 
-    match = re.search('Miltal', list(d.children)[3].string, flags=re.IGNORECASE)
-    if match:
-    	key = 'mileage'
+       match = re.search('.rsmodell', list(d.children)[3].string, flags=re.IGNORECASE)
+       if match:
+          key = 'year'
 
-    match = re.search('Drivmedel', list(d.children)[3].string, flags=re.IGNORECASE)
-    if match:
-    	key = 'fuel'
+       match = re.search('Miltal', list(d.children)[3].string, flags=re.IGNORECASE)
+       if match:
+          key = 'mileage'
 
-    match = re.search('V.xell.da', list(d.children)[3].string, flags=re.IGNORECASE)
-    if match:
-    	key = 'auto'
+       match = re.search('Drivmedel', list(d.children)[3].string, flags=re.IGNORECASE)
+       if match:
+          key = 'fuel'
 
-    match = re.search('Drivhjul', list(d.children)[3].string, flags=re.IGNORECASE)
-    if match:
-    	key = '4wd'
+       match = re.search('V.xell.da', list(d.children)[3].string, flags=re.IGNORECASE)
+       if match:
+          key = 'auto'
 
-    match = re.search('Regnr', list(d.children)[3].string, flags=re.IGNORECASE)
-    if match:
-    	key = 'regnr'
+       match = re.search('Drivhjul', list(d.children)[3].string, flags=re.IGNORECASE)
+          if match:
+          key = '4wd'
 
-    # info[list(d.children)[3].string] = list(d.children)[1].string
-    info[key] = list(d.children)[1].string
-    # Tracer()()
-if len(info['mileage'].split()) > 1:
-   info['mileage'] = info['mileage'].split()[0] + info['mileage'].split()[1]
+       match = re.search('Regnr', list(d.children)[3].string, flags=re.IGNORECASE)
+       if match:
+          key = 'regnr'
 
-if info['auto'] == 'Automatisk':
-   info['auto'] = "1"
-else:
-   info['auto'] = "0"
+       # info[list(d.children)[3].string] = list(d.children)[1].string
+       info[key] = list(d.children)[1].string
+       # Tracer()()
+   if len(info['mileage'].split()) > 1:
+      info['mileage'] = info['mileage'].split()[0] + info['mileage'].split()[1]
 
-if info['fuel'] == 'Bensin':
-   info['fuel_bensin'] = "1"
-   info['fuel_diesel'] = "0"
-   info['fuel_d_hybrid'] = "0"
-   info['fuel_b_hybrid'] = "0"
-elif info['fuel'] == 'Diesel':
-   info['fuel_bensin'] = "0"
-   info['fuel_diesel'] = "1"
-   info['fuel_d_hybrid'] = "0"
-   info['fuel_b_hybrid'] = "0"
-elif info['fuel'] == 'Hybrid el/diesel':
-   info['fuel_bensin'] = "0"
-   info['fuel_diesel'] = "0"
-   info['fuel_d_hybrid'] = "1"
-   info['fuel_b_hybrid'] = "0"
-elif info['fuel'] == 'Hybrid el/bensin':
-   info['fuel_bensin'] = "0"
-   info['fuel_diesel'] = "0"
-   info['fuel_d_hybrid'] = "0"
-   info['fuel_b_hybrid'] = "1"
+   if info['auto'] == 'Automatisk':
+      info['auto'] = "1"
+   else:
+      info['auto'] = "0"
 
-del info['fuel']
+   if info['fuel'] == 'Bensin':
+      info['fuel_bensin'] = "1"
+      info['fuel_diesel'] = "0"
+      info['fuel_d_hybrid'] = "0"
+      info['fuel_b_hybrid'] = "0"
+   elif info['fuel'] == 'Diesel':
+      info['fuel_bensin'] = "0"
+      info['fuel_diesel'] = "1"
+      info['fuel_d_hybrid'] = "0"
+      info['fuel_b_hybrid'] = "0"
+   elif info['fuel'] == 'Hybrid el/diesel':
+      info['fuel_bensin'] = "0"
+      info['fuel_diesel'] = "0"
+      info['fuel_d_hybrid'] = "1"
+      info['fuel_b_hybrid'] = "0"
+   elif info['fuel'] == 'Hybrid el/bensin':
+      info['fuel_bensin'] = "0"
+      info['fuel_diesel'] = "0"
+      info['fuel_d_hybrid'] = "0"
+      info['fuel_b_hybrid'] = "1"
 
-if info['4wd'] == "4WD":
-   info['4wd'] = "1"
-else:
-   info['4wd'] = "0"
+   del info['fuel']
+
+   if info['4wd'] == "4WD":
+      info['4wd'] = "1"
+   else:
+      info['4wd'] = "0"
 
 
 
 #################################
-# find the extras and process them
+# find the extras and process
+# them
 #################################
 
 extras = soup.find("div", class_="uk-grid uk-grid-width-medium-1-3").find_all('li')
@@ -317,16 +321,13 @@ for e in extras:
       info['laddhybrid'] = "1"
    # Tracer()()
 
-# keys = list()
-# for key,value in sorted(info.items()):
-   # print key + " " + value
-   # print(value, end=",")
-   # keys.append(key)
-# print len(info)
+
+
 #################################
 # print the values on one line
 # comma separated
 #################################
+
 print(",".join(['{1}'.format(k, v) for k,v in sorted(info.iteritems())]))
 
 
