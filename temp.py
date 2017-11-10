@@ -53,39 +53,43 @@ info['airbag'] = "0"
 info['gps'] = "0"
 info['keyless'] = "0"
 info['laddhybrid'] = "0"
+info['spec'] = "NaN"
+info['itrafik'] = "NaN"
+info['color'] = "NaN"
+info['motor'] = "NaN"
+info['power'] = "NaN"
+info['co2'] = "NaN"
+info['eco'] = "NaN"
+info['vikt'] = "NaN"
+
 
 
 #################################
 # scrape tha page
 #################################
 
-url = sys.argv[1]
-# url = "https://www.bytbil.com/ostergotlands-lan/personbil-435-d-gran-coupe-m-sport-xdrive-6577-11441064"
-r = requests.get(url)
-data = r.text
-soup = BeautifulSoup(data, "html.parser")
-
+def get_page(url):
+   # url = sys.argv[1]
+   # url = "https://www.bytbil.com/ostergotlands-lan/personbil-435-d-gran-coupe-m-sport-xdrive-6577-11441064"
+   r = requests.get(url)
+   data = r.text
+   soup = BeautifulSoup(data, "html.parser")
+   return soup
 
 
 #################################
 # find price
 #################################
 
-def get_price():
+def get_details(soup):
    price = soup.find("span", class_="car-price-details").get_text().strip()
    price = price.split()[0]+price.split()[1]
    # print "Pris," + price
    info['pris'] = price
-
-
-
-
+   # Tracer()()
 #################################
 # find the main details
 #################################
-
-def get_main_details():
-
    details = soup.find("div", class_="object-info-box equipment-list-equal")
    for d in details.find_all('dl'):
        # print list(d.children)[3].string + ',' + list(d.children)[1].string
@@ -114,7 +118,7 @@ def get_main_details():
           key = 'auto'
 
        match = re.search('Drivhjul', list(d.children)[3].string, flags=re.IGNORECASE)
-          if match:
+       if match:
           key = '4wd'
 
        match = re.search('Regnr', list(d.children)[3].string, flags=re.IGNORECASE)
@@ -160,17 +164,27 @@ def get_main_details():
    else:
       info['4wd'] = "0"
 
-
+   # Tracer()()
 
 #################################
 # find the extras and process
 # them
 #################################
-
-def get_equipment():
-   extras = soup.find("div", class_="uk-grid uk-grid-width-medium-1-3").find_all('li')
+   try:
+      extras = soup.find("div", class_="uk-grid uk-grid-width-medium-1-3").find_all('li')
+   except Exception as e:
+      # e
+      try:
+         extras = soup.find("ul", class_="uk-list-space equipment-list").find('li')
+         # print(extras.string.split())
+         extras = extras.split()
+      except Exception as e1:
+        e
+        # print(e1) 
+   # extras = soup.find("div", class_="uk-grid uk-grid-width-medium-1-3").find_all('li')
    # print len(extras)
    for e in extras:
+      e = e.string
       # print e.string
       match = re.search('abs', e.string, flags=re.IGNORECASE)
       if match:
@@ -252,7 +266,7 @@ def get_equipment():
       if match:
          info['lucka'] = "1"
 
-      match = re.search('Parkering.*bak|Backkamera|Parkeringspaket', e.string, flags=re.IGNORECASE)
+      match = re.search('Parkering.*bak|Backkamera|Parkeringspaket|Backvarnare', e.string, flags=re.IGNORECASE)
       if match:
          info['parkassist'] = "1"
 
@@ -321,15 +335,50 @@ def get_equipment():
       if match:
          info['laddhybrid'] = "1"
       # Tracer()()
-
-
+   return info
 
 #################################
 # print the values on one line
 # comma separated
 #################################
 
-print(",".join(['{1}'.format(k, v) for k,v in sorted(info.iteritems())]))
+def print_data(info):
+   # print(",".join(['{0}'.format(k, v) for k,v in sorted(info.iteritems())]))
+   print(",".join(['{1}'.format(k, v) for k,v in sorted(info.iteritems())]))
+
+
+def get_volume_hp(soup):
+   key_list = []
+   val_list = []
+   try:
+      keys = soup.find_all("div", class_="text-gray")
+      for key in keys:
+         key_list.append(key.string)
+      divs = soup.find_all("div", class_="uk-text-bold")
+      for d in divs:
+         val_list.append(d)
+      info['spec'] = soup.find("em").string.replace(",",".")
+      info['itrafik'] = val_list[3].string.encode('utf-8').strip()
+      info['color'] = val_list[4].string.encode('utf-8').strip()
+      info['motor'] = val_list[5].string.encode('utf-8').strip()
+      info['power'] = val_list[6].string.encode('utf-8').strip()
+      match = re.search('(\d*) g CO', str(val_list[7]))
+      info['co2'] = match.group(1)
+      info['eco'] = val_list[8].string.encode('utf-8').strip()
+      info['vikt'] = val_list[11].string.encode('utf-8').strip()
+   except Exception as e3:
+      e3
+
+
+
+soup = get_page(sys.argv[1])
+
+details = get_details(soup)
+get_volume_hp(soup)
+print_data(info)
+
+
+
 
 
 #########################################
