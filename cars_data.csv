@@ -1,3 +1,6 @@
-4wd,abs,airbag,alufalg,antisladd,antispinn,auto,bluetooth,c-las,dimljus,dragkrok,elhissar,elspeglar,farthallare,fdator,fuel_b_hybrid,fuel_bensin,fuel_d_hybrid,fuel_diesel,gps,keyless,klima,laddhybrid,larm,ledheadl,lucka,make,mileage,model,motorv,muggh,multifunktionsratt,parkassist,pris,rails,rattv,regnr,regnsensor,servo,skin,startstop,stolminne,stolv-fram,svensks,vinterd-d,vinterd-fr,xenon,year,ytempm
-0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,0,0,0,0,1,1,0,0,0,0,Toyota,4400,Yaris,0,0,1,1,114900,0,0,OUF638,1,1,0,0,0,1,1,0,0,0,2013,1
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,0,1,1,0,0,0,Mitsubishi,9193,Outlander,0,0,1,1,239000,0,0,SZM962,1,1,1,0,0,0,1,0,1,1,2014,1
+4wd,abs,airbag,alufalg,antisladd,antispinn,auto,bluetooth,c-las,co2,color,dimljus,dragkrok,eco,elhissar,elspeglar,farthallare,fdator,fuel_b_hybrid,fuel_bensin,fuel_d_hybrid,fuel_diesel,gps,itrafik,keyless,klima,laddhybrid,larm,ledheadl,lucka,make,mileage,model,motor,motorv,muggh,multifunktionsratt,parkassist,power,pris,rails,rattv,regnr,regnsensor,servo,skin,spec,startstop,stolminne,stolv-fram,svensks,vikt,vinterd-d,vinterd-fr,xenon,year,ytempm
+0,1,1,1,1,1,0,0,1,148,Ljusgrön,0,0,0.63 l/mil,1,1,1,1,0,1,0,0,0,2009-12-15,0,0,0,0,0,0,Skoda,4000,Octavia,1 390 cc,0,0,0,1,122 hk,84900,1,0,HTT199,1,1,0,COM AM 1.4,0,0,1,1,1 940 kg,0,1,0,2010,1
+0,1,1,1,1,0,1,0,1,NaN,NaN,0,0,NaN,1,1,1,1,0,1,0,0,0,NaN,0,1,0,0,0,0,Mercedes-Benz,8300,C,NaN,0,0,0,0,NaN,134900,0,0,-,0,1,1,NaN,0,0,1,1,NaN,1,0,1,2011,1
+0,1,1,1,1,0,1,0,1,NaN,NaN,0,0,NaN,1,1,1,1,0,1,0,0,0,NaN,0,1,0,0,0,0,Mercedes-Benz,8300,C,NaN,0,0,0,0,NaN,134900,0,0,-,0,1,1,NaN,0,0,1,1,NaN,1,0,1,2011,1
+0,1,1,1,1,1,0,0,1,145,Röd,0,0,0.61 l/mil,1,1,1,1,0,1,0,0,0,2012-07-31,0,1,0,0,0,0,Honda,5720,Civic,1 798 cc,0,0,1,1,141 hk,109000,0,0,OSC033,1,1,0,5DR,0,0,1,1,1 750 kg,1,0,0,2012,1
+0,1,1,1,1,1,0,0,1,NaN,2005,0,1,NaN,1,1,1,1,0,1,0,0,0,2007-06-18,0,1,0,0,0,0,Audi,-,A6,Svart,0,0,0,0,1 984 cc,69900,1,0,FRB012,1,1,1,AV 2.0 T,0,0,1,0,NaN,1,0,1,2007,1
