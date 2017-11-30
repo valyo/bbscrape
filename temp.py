@@ -190,7 +190,7 @@ def get_details(soup):
       if match:
          info['abs'] = "1"
 
-      match = re.search('Klimatanl', e.string, flags=re.IGNORECASE)
+      match = re.search('Klimatanl|AC', e.string, flags=re.IGNORECASE)
       if match:
          info['klima'] = "1"
 
@@ -351,27 +351,79 @@ def get_volume_hp(soup):
    key_list = []
    val_list = []
    try:
+      all_det = soup.find("div", class_="uk-grid uk-grid-width-medium-1-3 additional-vehicle-data")
+      # print(str(all_det))
+      stri = " ".join(" ".join(" ".join(str(all_det.encode('utf-8')).splitlines()).split(">")).split("<"))
+      # stri = " ".join(" ".join(" ".join(all_det.splitlines()).split(">")).split("<"))
+      print(stri)
+      # match = re.search('(\d*) g CO', str(all_det.text), flags=re.IGNORECASE)
+      match = re.search('(\d*) g CO', stri, flags=re.IGNORECASE)
+      if match:
+         info["co2"] = match.group(1)
+      match = re.search('(\d*\.\d*) l/mil', stri, flags=re.IGNORECASE)
+      if match:
+         info["eco"] = match.group(1)
+      match = re.search('(\d*\s*\d*) cc', stri, flags=re.IGNORECASE)
+      if match:
+         info["motor"] = match.group(1)
+      match = re.search('(\d*) hk', stri, flags=re.IGNORECASE)
+      if match:
+         info["power"] = match.group(1)
+      match = re.search('(\d{4}-\d{2}-\d{2})', stri, flags=re.IGNORECASE)
+      if match:
+         info["itrafik"] = match.group(0)
       keys = soup.find_all("div", class_="text-gray")
       for key in keys:
          key_list.append(key.string)
+      print(len(key_list))
       divs = soup.find_all("div", class_="uk-text-bold")
       for d in divs:
-         val_list.append(d)
-      info['spec'] = soup.find("em").string.replace(",",".")
-      info['itrafik'] = val_list[3].string.encode('utf-8').strip()
-      info['color'] = val_list[4].string.encode('utf-8').strip()
-      info['motor'] = val_list[5].string.encode('utf-8').strip()
-      info['power'] = val_list[6].string.encode('utf-8').strip()
-      match = re.search('(\d*) g CO', str(val_list[7]))
-      info['co2'] = match.group(1)
-      info['eco'] = val_list[8].string.encode('utf-8').strip()
-      info['vikt'] = val_list[11].string.encode('utf-8').strip()
+         val_list.append(d.string)
+      print(len(val_list))
+      for i in range(len(val_list)):
+         print(key_list[i])
+         match = re.search('Modell', key_list[i], flags=re.IGNORECASE)
+         if match:
+            info['spec'] = soup.find("em").string.replace(",",".")
+         # match = re.search('I trafik', key_list[i], flags=re.IGNORECASE)
+         # if match:
+         #    info['itrafik'] = val_list[i].string.encode('utf-8').strip()
+         match = re.search('F.*rg', key_list[i], flags=re.IGNORECASE)
+         if match:
+            print("bla")
+            info['color'] = val_list[i].string.encode('utf-8').strip()
+         else:
+            # match = re.search('>(Svart)<|>(Vit)<|>(Ljusgr.n)<|>(Gr.)<|>(Ljusbrun)<| (R.d) ', stri, flags=re.IGNORECASE)
+            match = re.search('\s(R.d)\s', stri, flags=re.IGNORECASE)
+            if match:
+               info["color"] = match.group(1)
+         # match = re.search('Motorstorlek', key_list[i], flags=re.IGNORECASE)
+         # if match:
+         #    info['motor'] = val_list[i].string.encode('utf-8').strip()
+         # match = re.search('Motoreffekt', key_list[i], flags=re.IGNORECASE)
+         # if match:
+         #    info['power'] = val_list[i].string.encode('utf-8').strip()
+         # match = re.search('Koldioxidutsl.pp', key_list[i], flags=re.IGNORECASE)
+         # if match:
+         #    m = re.search('(\d*) g CO', str(val_list[i]))
+         #    info['co2'] = m.group(1)
+         # match = re.search('Br.nslef.rbrukning', key_list[i], flags=re.IGNORECASE)
+         # if match:
+         #    info['eco'] = val_list[i].string.encode('utf-8').strip()
+         match = re.search('Skattevikt', key_list[i], flags=re.IGNORECASE)
+         if match:
+            info['vikt'] = val_list[i].string.encode('utf-8').strip()
+         else:
+            match = re.search('(\d.\d{3}) kg', stri, flags=re.IGNORECASE)
+            if match:
+               info["vikt"] = match.group(1)
    except Exception as e3:
       e3
 
 
 
 soup = get_page(sys.argv[1])
+# print(soup)
 
 details = get_details(soup)
 get_volume_hp(soup)
