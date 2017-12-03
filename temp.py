@@ -355,7 +355,9 @@ def get_volume_hp(soup):
       # print(str(all_det))
       stri = " ".join(" ".join(" ".join(str(all_det.encode('utf-8')).splitlines()).split(">")).split("<"))
       # stri = " ".join(" ".join(" ".join(all_det.splitlines()).split(">")).split("<"))
-      print(stri)
+      
+      # print(stri)
+
       # match = re.search('(\d*) g CO', str(all_det.text), flags=re.IGNORECASE)
       match = re.search('(\d*) g CO', stri, flags=re.IGNORECASE)
       if match:
@@ -375,13 +377,14 @@ def get_volume_hp(soup):
       keys = soup.find_all("div", class_="text-gray")
       for key in keys:
          key_list.append(key.string)
-      print(len(key_list))
+      # print(len(key_list))
       divs = soup.find_all("div", class_="uk-text-bold")
       for d in divs:
          val_list.append(d.string)
-      print(len(val_list))
+      # print(len(val_list))
       for i in range(len(val_list)):
-         print(key_list[i])
+         # print(key_list[i])
+         # print(val_list[i])
          match = re.search('Modell', key_list[i], flags=re.IGNORECASE)
          if match:
             info['spec'] = soup.find("em").string.replace(",",".")
@@ -390,11 +393,11 @@ def get_volume_hp(soup):
          #    info['itrafik'] = val_list[i].string.encode('utf-8').strip()
          match = re.search('F.*rg', key_list[i], flags=re.IGNORECASE)
          if match:
-            print("bla")
+            # print("bla")
             info['color'] = val_list[i].string.encode('utf-8').strip()
          else:
-            # match = re.search('>(Svart)<|>(Vit)<|>(Ljusgr.n)<|>(Gr.)<|>(Ljusbrun)<| (R.d) ', stri, flags=re.IGNORECASE)
-            match = re.search('\s(R.d)\s', stri, flags=re.IGNORECASE)
+            match = re.search('.*(Ljusbl.).*|.*(Svart).*|.*(Vit).*|.*(Ljusgr.n).*|.*(Gr.).*|.*(Ljusbrun).*|.*(R.d).*', stri, flags=re.IGNORECASE)
+            # match = re.search('\s(R.d)\s', stri, flags=re.IGNORECASE)
             if match:
                info["color"] = match.group(1)
          # match = re.search('Motorstorlek', key_list[i], flags=re.IGNORECASE)
