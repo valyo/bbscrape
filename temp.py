@@ -365,9 +365,6 @@ def get_volume_hp(soup):
       match = re.search('(\d*\.\d*) l/mil', stri, flags=re.IGNORECASE)
       if match:
          info["eco"] = match.group(1)
-      match = re.search('(\d*\s*\d*) cc', stri, flags=re.IGNORECASE)
-      if match:
-         info["motor"] = match.group(1)
       match = re.search('(\d*) hk', stri, flags=re.IGNORECASE)
       if match:
          info["power"] = match.group(1)
@@ -400,9 +397,15 @@ def get_volume_hp(soup):
             # match = re.search('\s(R.d)\s', stri, flags=re.IGNORECASE)
             if match:
                info["color"] = match.group(1)
-         # match = re.search('Motorstorlek', key_list[i], flags=re.IGNORECASE)
-         # if match:
-         #    info['motor'] = val_list[i].string.encode('utf-8').strip()
+         match = re.search('Motorstorlek', key_list[i], flags=re.IGNORECASE)
+         if match:
+            info['motor'] = val_list[i].string.encode('utf-8').strip()
+            print("bla")
+         else:
+            if "NaN" == info['motor']:
+               match = re.search('(\d.*\d) cc', stri, flags=re.IGNORECASE)
+               if match:
+                  info["motor"] = match.group(1)
          # match = re.search('Motoreffekt', key_list[i], flags=re.IGNORECASE)
          # if match:
          #    info['power'] = val_list[i].string.encode('utf-8').strip()
@@ -420,6 +423,26 @@ def get_volume_hp(soup):
             match = re.search('(\d.\d{3}) kg', stri, flags=re.IGNORECASE)
             if match:
                info["vikt"] = match.group(1)
+      
+      # fix the engine displacement value   
+      info['motor'] = info['motor'].replace(" cc","")
+      motor = ""
+      for i in info['motor']:
+         match = re.search('\d',i)
+         if match:
+            motor+=i
+      info['motor'] = motor
+
+      # fix the weigth value   
+      info['vikt'] = info['vikt'].replace(" kg","")
+      vikt = ""
+      for i in info['vikt']:
+         match = re.search('\d',i)
+         if match:
+            vikt+=i
+      info['vikt'] = vikt
+
+
    except Exception as e3:
       e3
 
