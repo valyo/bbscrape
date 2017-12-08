@@ -4,6 +4,7 @@
 
 import sys
 import re
+import os
 import codecs
 from bs4 import BeautifulSoup
 import requests
@@ -25,7 +26,8 @@ class getCars:
 
    def connectDB(self):
 
-	   return  lite.connect('/home/mcrae/bytbil.com/bytbil.com.sqlite')
+      db_file = dir_path + "/bytbil.com.sqlite"
+      return  lite.connect(db_file)
 
 
    def getPage(self, url):
@@ -64,6 +66,10 @@ if __name__ == "__main__":
    # and site URL for the DB cars links
    url = "https://www.bytbil.com/bil?Page="
    b_link = "https://www.bytbil.com"
+
+   dir_path = os.path.dirname(os.path.realpath(__file__))
+
+
    # define a list to store the links
    cars_links = list()
 
@@ -124,7 +130,8 @@ if __name__ == "__main__":
 
    db.commit()
 
-   out = open('/home/mcrae/bytbil.com/get_cars_log.csv', 'a')
+   log_file = dir_path + "/get_cars_log.csv"
+   out = open(log_file, 'a')
    out.write(currentDate + "," + str(c) + '\n')
    # print currentDate + "," + str(c) + " new links found"
 
