@@ -5,6 +5,7 @@
 import sys
 import re
 import os
+import time
 import codecs
 from bs4 import BeautifulSoup
 import requests
@@ -12,6 +13,7 @@ import requests.packages.urllib3
 import sqlite3 as lite
 from operator import itemgetter
 from datetime import datetime, timedelta
+from random import *
 
 # from IPython.core.debugger import Tracer
 # from HTMLParser import HTMLParser
@@ -127,6 +129,7 @@ if __name__ == "__main__":
                # print e
                print link
                stop = True
+      time.sleep(randint(1, 9))
 
    db.commit()
 
