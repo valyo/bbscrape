@@ -25,6 +25,7 @@ class getCarsData:
 
    def print_data(self,info):
       # print(",".join(['{0}'.format(k, v) for k,v in sorted(info.iteritems())]))
+
       print(",".join(['{1}'.format(k, v) for k,v in sorted(info.iteritems())]))
 
 
@@ -110,10 +111,14 @@ class getCarsData:
              key = 'regnr'
 
           # info[list(d.children)[3].string] = list(d.children)[1].string
-          info[key] = list(d.children)[1].string
+          info[key] = list(d.children)[1].string.encode('utf-8')
           # Tracer()()
-      if len(info['mileage'].split()) > 1:
-         info['mileage'] = info['mileage'].split()[0] + info['mileage'].split()[1]
+      mil = ""
+      for i in info['mileage']:
+         match = re.search('\d',i)
+         if match:
+            mil+=i
+      info['mileage'] = mil
 
       if info['auto'] == 'Automatisk':
          info['auto'] = "1"
@@ -233,27 +238,94 @@ class getCarsData:
                   info["vikt"] = match.group(1)
 
          # fix the engine displacement value   
-         info['motor'] = info['motor'].replace(" cc","")
-         motor = ""
-         for i in info['motor']:
-            match = re.search('\d',i)
-            if match:
-               motor+=i
-         info['motor'] = motor
+            info['motor'] = info['motor'].replace(" cc","")
+            motor = ""
+            if len(info['motor']) > 8:
+               info['motor'] = info['motor'][-6:]
+            for i in info['motor']:
+               match = re.search('\d',i)
+               if match:
+                  motor+=i
+            info['motor'] = motor
 
-         # fix the weigth value   
-         info['vikt'] = info['vikt'].replace(" kg","")
-         vikt = ""
-         for i in info['vikt']:
-            match = re.search('\d',i)
-            if match:
-               vikt+=i
-         info['vikt'] = vikt
+            # fix the weigth value   
+            info['vikt'] = info['vikt'].replace(" kg","")
+            vikt = ""
+            for i in info['vikt']:
+               match = re.search('\d',i)
+               if match:
+                  vikt+=i
+            info['vikt'] = vikt
 
 
       except Exception as e3:
          e3
 
+   def initInfo(self):
+   
+      #################################
+      # define dic to hold the features
+      #################################
+
+      # info = {}
+      info['make'] = "NaN"
+      info['mileage'] = "NaN"
+      info['model'] = "NaN"
+      info['pris'] = "NaN"
+      info['regnr'] = "NaN"
+      info['year'] = "NaN"
+      info['fuel_bensin'] = "0"
+      info['fuel_diesel'] = "0"
+      info['fuel_d_hybrid'] = "0"
+      info['fuel_b_hybrid'] = "0"
+      info['abs'] = "0"
+      info['klima'] = "0"
+      info['dragkrok'] = "0"
+      info['elhissar'] = "0"
+      info['elspeglar'] = "0"
+      info['farthallare'] = "0"
+      info['c-las'] = "0"
+      info['fdator'] = "0"
+      info['alufalg'] = "0"
+      info['multifunktionsratt'] = "0"
+      info['servo'] = "0"
+      info['stolv-fram'] = "0"
+      info['svensks'] = "0"
+      info['ytempm'] = "0"
+      info['muggh'] = "0"
+      info['dimljus'] = "0"
+      info['rattv'] = "0"
+      info['ledheadl'] = "0"
+      info['skin'] = "0"
+      info['lucka'] = "0"
+      info['parkassist'] = "0"
+      info['startstop'] = "0"
+      info['stolminne'] = "0"
+      info['bluetooth'] = "0"
+      info['larm'] = "0"
+      info['motorv'] = "0"
+      info['rails'] = "0"
+      info['vinterd-fr'] = "0"
+      info['vinterd-d'] = "0"
+      info['antisladd'] = "0"
+      info['antispinn'] = "0"
+      info['regnsensor'] = "0"
+      info['xenon'] = "0"
+      info['airbag'] = "0"
+      info['gps'] = "0"
+      info['keyless'] = "0"
+      info['laddhybrid'] = "0"
+      info['spec'] = "NaN"
+      info['itrafik'] = "NaN"
+      info['color'] = "NaN"
+      info['motor'] = "NaN"
+      info['power'] = "NaN"
+      info['co2'] = "NaN"
+      info['eco'] = "NaN"
+      info['vikt'] = "NaN"
+
+      return info
+      
  
 if __name__ == "__main__":
 
@@ -275,15 +347,19 @@ if __name__ == "__main__":
    # define a list to store the links
    # cars_links = list()
 
-
-   # define a counter; set it to 1
-   # c = 1
-
-   #################################
-   # define dic to hold the features
-   #################################
-
    info = {}
+   info['make'] = "NaN"
+   info['mileage'] = "NaN"
+   info['model'] = "NaN"
+   info['pris'] = "NaN"
+   info['regnr'] = "NaN"
+   info['year'] = "NaN"
+   info['fuel_bensin'] = "0"
+   info['fuel_diesel'] = "0"
+   info['fuel_d_hybrid'] = "0"
+   info['fuel_b_hybrid'] = "0"
+   info['4wd'] = "0"
+   info['auto'] = "0"
    info['abs'] = "0"
    info['klima'] = "0"
    info['dragkrok'] = "0"
@@ -351,10 +427,18 @@ if __name__ == "__main__":
 
    # select link from car_links where annons_id = "n"
    # and get the links in a list
+
+   #print header
+   # getCarsData.initInfo()
+   print(",".join(['{0}'.format(k, v) for k,v in sorted(info.iteritems())]))
+
    ads = getCarsData.getAdsLinksList(cur)
 
 
    for ad in ads:
+
+      # initialize dic holding the features
+      getCarsData.initInfo()
 
       # ad[0] is link_id and ad[1] is the link string
       # print ad[1]
@@ -370,14 +454,15 @@ if __name__ == "__main__":
          # print("bla")
          continue
       else:
-         print(ad[1])
+
+         # print the add link for debugging
+         # print(ad[1])
+         
          getCarsData.get_details(soup)
          getCarsData.get_volume_hp(soup)
          getCarsData.print_data(info)
-         # print info
-
-
-         # get all details
+         
+         #  
 
    #    make record in car_data table
    

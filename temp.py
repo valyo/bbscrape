@@ -92,7 +92,7 @@ def get_details(soup):
 #################################
    details = soup.find("div", class_="object-info-box equipment-list-equal")
    for d in details.find_all('dl'):
-       # print list(d.children)[3].string + ',' + list(d.children)[1].string
+       # print(list(d.children)[3].string + ',' + list(d.children)[1].string)
        match = re.search('M.rke', list(d.children)[3].string, flags=re.IGNORECASE)
        if match:
           key = 'make'
@@ -126,10 +126,14 @@ def get_details(soup):
           key = 'regnr'
 
        # info[list(d.children)[3].string] = list(d.children)[1].string
-       info[key] = list(d.children)[1].string
+       info[key] = list(d.children)[1].string.encode('utf-8')
        # Tracer()()
-   if len(info['mileage'].split()) > 1:
-      info['mileage'] = info['mileage'].split()[0] + info['mileage'].split()[1]
+   mil = ""
+   for i in info['mileage']:
+      match = re.search('\d',i)
+      if match:
+         mil+=i
+   info['mileage'] = mil
 
    if info['auto'] == 'Automatisk':
       info['auto'] = "1"
@@ -343,7 +347,7 @@ def get_details(soup):
 #################################
 
 def print_data(info):
-   # print(",".join(['{0}'.format(k, v) for k,v in sorted(info.iteritems())]))
+   # print(",".join(['{1}'.format(k, v) for k,v in sorted(info.iteritems())]))
    print(",".join(['{1}'.format(k, v) for k,v in sorted(info.iteritems())]))
 
 
@@ -399,11 +403,11 @@ def get_volume_hp(soup):
                info["color"] = match.group(1)
          match = re.search('Motorstorlek', key_list[i], flags=re.IGNORECASE)
          if match:
-            info['motor'] = val_list[i].string.encode('utf-8').strip()
             print("bla")
+            info['motor'] = val_list[i].string.encode('utf-8').strip()
          else:
             if "NaN" == info['motor']:
-               match = re.search('(\d.*\d) cc', stri, flags=re.IGNORECASE)
+               match = re.search('(\d{1}.*\d) cc', stri, flags=re.IGNORECASE)
                if match:
                   info["motor"] = match.group(1)
          # match = re.search('Motoreffekt', key_list[i], flags=re.IGNORECASE)
@@ -424,14 +428,20 @@ def get_volume_hp(soup):
             if match:
                info["vikt"] = match.group(1)
       
-      # fix the engine displacement value   
-      info['motor'] = info['motor'].replace(" cc","")
-      motor = ""
-      for i in info['motor']:
-         match = re.search('\d',i)
-         if match:
-            motor+=i
-      info['motor'] = motor
+         # fix the engine displacement value   
+         info['motor'] = info['motor'].replace(" cc","")
+         motor = ""
+         
+         if len(info['motor']) > 8:
+            info['motor'] = info['motor'][-6:]
+         
+         for i in info['motor']:
+            match = re.search('\d',i)
+            if match:
+               motor+=i
+         info['motor'] = motor
+         
+
 
       # fix the weigth value   
       info['vikt'] = info['vikt'].replace(" kg","")
@@ -453,7 +463,10 @@ soup = get_page(sys.argv[1])
 
 details = get_details(soup)
 get_volume_hp(soup)
+# for k,v in sorted(info.iteritems()):
+#    print(k,v)
 print_data(info)
+# print(info)
 
 
 
