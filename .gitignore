@@ -1,2 +1,6 @@
 cron.log
 cron.err
+*.pyc
+*.csv
+*.sqlite
+*.txt
