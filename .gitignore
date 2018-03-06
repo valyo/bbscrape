@@ -4,3 +4,4 @@ cron.err
 *.csv
 *.sqlite
 *.txt
+*.sqlite.backup
