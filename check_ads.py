@@ -36,6 +36,8 @@ class checkAds:
    def match_missing(self,soup):
 
       match = re.search('Sidan saknas.*', soup.find("title").get_text().strip(), flags=re.IGNORECASE)
+      if not match:
+         match = re.search('Annonsen finns inte*', soup.find("h2", class_="uk-text-bold").get_text().strip(), flags=re.IGNORECASE)
       return match
 
 
@@ -80,7 +82,6 @@ if __name__ == "__main__":
    cur.execute(query)
    res = cur.fetchall()
    
-   
    for lnk in res:
       
       soup = getCarsData.getAdPage(lnk[0])
@@ -90,7 +91,6 @@ if __name__ == "__main__":
             query = u"UPDATE car_links SET end_date = '%s' WHERE link = '%s';" % (currentDate, lnk[0])
             cur.execute(query)
             db.commit()
+            print lnk[0]
       except Exception as e:
-         print lnk[0]
       time.sleep(2)
-   
