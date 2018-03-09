@@ -93,4 +93,5 @@ if __name__ == "__main__":
             db.commit()
             print lnk[0]
       except Exception as e:
+         pass
       time.sleep(2)
