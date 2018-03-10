@@ -28,8 +28,14 @@ class getCars:
 
    def connectDB(self):
 
-      db_file = dir_path + "/bytbil.com.sqlite"
-      return  lite.connect(db_file)
+      dir_path = os.path.dirname(os.path.realpath(__file__))
+      try:
+         db_file = dir_path + "/bytbil.com.sqlite"
+         return  lite.connect(db_file)
+      except Exception as e:
+         print(e)
+
+      return None
 
 
    def getPage(self, url):
@@ -68,8 +74,6 @@ if __name__ == "__main__":
    # and site URL for the DB cars links
    url = "https://www.bytbil.com/bil?Page="
    b_link = "https://www.bytbil.com"
-
-   dir_path = os.path.dirname(os.path.realpath(__file__))
 
 
    # define a list to store the links
