@@ -94,4 +94,4 @@ if __name__ == "__main__":
             print lnk[0]
       except Exception as e:
          pass
-      time.sleep(2)
+      time.sleep(1)
