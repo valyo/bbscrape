@@ -376,7 +376,7 @@ class getCarsData:
             match = re.search('Modell', key_list[i], flags=re.IGNORECASE)
             if match:
                try:
-                 info['spec'] = soup.find("em").string.replace(",",".")
+                 info['spec'] = soup.find("em").string.encode('utf-8').replace(",",".")
                  # info['spec'] = val_list[i].string.encode('utf-8').strip()
                except Exception as e5:
                  e5
