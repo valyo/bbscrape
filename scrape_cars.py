@@ -643,8 +643,14 @@ if __name__ == "__main__":
             print(e)
             # print link
             # stop = True
-         
-         #  
+         if cur.rowcount == 1:
+            query1 = "UPDATE car_links SET annons_id = '%s' WHERE link_id = '%s';" % ("y",ad[0])
+            try:
+               cur.execute(query1)
+               db.commit()
+            except Exception as e10:
+               print(ad[0])
+               print(e10)
 
    #    make record in car_data table
    
