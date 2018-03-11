@@ -12,6 +12,7 @@ import sqlite3 as lite
 from operator import itemgetter
 from datetime import datetime, timedelta
 import json
+from get_cars import getCars
 
 # from IPython.core.debugger import Tracer
 # from HTMLParser import HTMLParser
@@ -25,13 +26,14 @@ class getCarsData:
 
    def print_data(self,info):
       # print(",".join(['{0}'.format(k, v) for k,v in sorted(info.iteritems())]))
+      print(sorted(info.iteritems()))
+      # print(",".join(['{1}'.format(k, v) for k,v in sorted(info.iteritems())]))
+      print(['{1}'.format(k, v) for k,v in sorted(info.iteritems())])
 
-      print(",".join(['{1}'.format(k, v) for k,v in sorted(info.iteritems())]))
 
+   # def connectDB(self):
 
-   def connectDB(self):
-
-	   return  lite.connect('bytbil.com.sqlite')
+	  #  return  lite.connect('bytbil.com.sqlite')
 
 
    def getAdPage(self, url):
@@ -44,7 +46,7 @@ class getCarsData:
 
    def getAdsLinksList(self,cur):
       
-      query = "SELECT link_id,link FROM car_links WHERE end_date IS NULL;"
+      query = "SELECT link_id,link FROM car_links WHERE end_date IS NULL limit 10;"
       cur.execute(query)
       link = list(cur.fetchall())
       return link
@@ -321,6 +323,11 @@ class getCarsData:
          if match:
             info['laddhybrid'] = "1"
 
+         if info['year'] >= 2000:
+            info['abs'] = "1"
+            info['airbag'] = "1"
+            info['fdator'] = "1"
+            info['elspeglar'] = "1"
 
    def get_volume_hp(self,soup):
       key_list = []
@@ -340,9 +347,9 @@ class getCarsData:
          match = re.search('(\d*\.\d*) l/mil', stri, flags=re.IGNORECASE)
          if match:
             info["eco"] = match.group(1)
-         match = re.search('(\d*\s*\d*) cc', stri, flags=re.IGNORECASE)
-         if match:
-            info["motor"] = match.group(1)
+         # match = re.search('(\d*\s*\d*) cc', stri, flags=re.IGNORECASE)
+         # if match:
+         #    info["motor"] = match.group(1)
          match = re.search('(\d*) hk', stri, flags=re.IGNORECASE)
          if match:
             info["power"] = match.group(1)
@@ -351,27 +358,34 @@ class getCarsData:
             info["itrafik"] = match.group(0)
          keys = soup.find_all("div", class_="text-gray")
          for key in keys:
+            # print(key.string)
             key_list.append(key.string)
          # print(len(key_list))
+         # print(key_list)
          divs = soup.find_all("div", class_="uk-text-bold")
          for d in divs:
+            # print(d)
+            # print(d.string)
             val_list.append(d.string)
          # print(len(val_list))
+         # print(len(val_list))
          for i in range(len(val_list)):
+            # print(i)
             # print(key_list[i])
             # print(val_list[i])
             match = re.search('Modell', key_list[i], flags=re.IGNORECASE)
             if match:
-               info['spec'] = soup.find("em").string.replace(",",".")
-            # match = re.search('I trafik', key_list[i], flags=re.IGNORECASE)
-            # if match:
-            #    info['itrafik'] = val_list[i].string.encode('utf-8').strip()
+               try:
+                 info['spec'] = soup.find("em").string.replace(",",".")
+                 # info['spec'] = val_list[i].string.encode('utf-8').strip()
+               except Exception as e5:
+                 e5
             match = re.search('F.*rg', key_list[i], flags=re.IGNORECASE)
             if match:
                # print("bla")
                info['color'] = val_list[i].string.encode('utf-8').strip()
             else:
-               match = re.search('.*(Ljusbl.).*|.*(Svart).*|.*(Vit).*|.*(Ljusgr.n).*|.*(Gr.).*|.*(Ljusbrun).*|.*(R.d).*', stri, flags=re.IGNORECASE)
+               match = re.search('.*(Silver).*|.*(Ljusbl.).*|.*(Svart).*|.*(Vit).*|.*(Ljusgr.n).*|.*(Gr.).*|.*(Ljusbrun).*|.*(R.d).*', stri, flags=re.IGNORECASE)
                # match = re.search('\s(R.d)\s', stri, flags=re.IGNORECASE)
                if match:
                   info["color"] = match.group(1)
@@ -384,23 +398,11 @@ class getCarsData:
                   match = re.search('(\d.*\d) cc', stri, flags=re.IGNORECASE)
                   if match:
                      info["motor"] = match.group(1)
-            # match = re.search('Motorstorlek', key_list[i], flags=re.IGNORECASE)
-            # if match:
-            #    info['motor'] = val_list[i].string.encode('utf-8').strip()
-            # match = re.search('Motoreffekt', key_list[i], flags=re.IGNORECASE)
-            # if match:
-            #    info['power'] = val_list[i].string.encode('utf-8').strip()
-            # match = re.search('Koldioxidutsl.pp', key_list[i], flags=re.IGNORECASE)
-            # if match:
-            #    m = re.search('(\d*) g CO', str(val_list[i]))
-            #    info['co2'] = m.group(1)
-            # match = re.search('Br.nslef.rbrukning', key_list[i], flags=re.IGNORECASE)
-            # if match:
-            #    info['eco'] = val_list[i].string.encode('utf-8').strip()
             match = re.search('Skattevikt', key_list[i], flags=re.IGNORECASE)
             if match:
                info['vikt'] = val_list[i].string.encode('utf-8').strip()
-            else:
+               # print(len(info['vikt']))
+            elif len(info['vikt']) == 0:
                match = re.search('(\d.\d{3}) kg', stri, flags=re.IGNORECASE)
                if match:
                   info["vikt"] = match.group(1)
@@ -427,7 +429,7 @@ class getCarsData:
 
 
       except Exception as e3:
-         e3
+         print(e3)
 
    def initInfo(self):
    
@@ -499,6 +501,7 @@ if __name__ == "__main__":
 
 
    getCarsData = getCarsData()
+   getCars = getCars()
 
    ### #     # ### #######
     #  ##    #  #     #
@@ -576,7 +579,7 @@ if __name__ == "__main__":
 
 
    # connect to db and create a  cursor
-   db = getCarsData.connectDB()
+   db = getCars.connectDB()
    cur = db.cursor()
 
    # set current date
@@ -598,7 +601,7 @@ if __name__ == "__main__":
 
    #print header
    # getCarsData.initInfo()
-   print(",".join(['{0}'.format(k, v) for k,v in sorted(info.iteritems())]))
+   # print(",".join(['{0}'.format(k, v) for k,v in sorted(info.iteritems())]))
 
    ads = getCarsData.getAdsLinksList(cur)
 
@@ -628,7 +631,18 @@ if __name__ == "__main__":
          
          getCarsData.get_details(soup)
          getCarsData.get_volume_hp(soup)
-         getCarsData.print_data(info)
+         # getCarsData.print_data(info)
+         query = "INSERT INTO cars_data (annons_id,awd,abs,airbag,alufalg,antisladd,antispinn,auto,bluetooth,c_las,co2,color,dimljus,dragkrok,eco,elhissar,elspeglar,farthallare,fdator,fuel_b_hybrid,fuel_bensin,fuel_d_hybrid,fuel_diesel,gps,itrafik,keyless,klima,laddhybrid,larm,ledheadl,lucka,make,mileage,model,motor,motorv,muggh,multifunktionsratt,parkassist,power,pris,rails,rattv,regnr,regnsensor,servo,skin,spec,startstop,stolminne,stolv_fram,svensks,vikt,vinterd_d,vinterd_fr,xenon,year,ytempm) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);"
+
+         try:
+
+            cur.execute(query, ([ad[0]] + ['{1}'.format(k, v) for k,v in sorted(info.iteritems())]))
+            db.commit()
+         except Exception as e:
+
+            print(e)
+            # print link
+            # stop = True
          
          #  
 
