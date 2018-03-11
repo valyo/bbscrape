@@ -46,7 +46,7 @@ class getCarsData:
 
    def getAdsLinksList(self,cur):
       
-      query = "SELECT link_id,link FROM car_links WHERE end_date IS NULL;"
+      query = "SELECT link_id,link FROM car_links WHERE annons_id = "n";"
       cur.execute(query)
       link = list(cur.fetchall())
       return link
