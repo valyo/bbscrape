@@ -111,7 +111,7 @@ class getCarsData:
              key = 'regnr'
 
           # info[list(d.children)[3].string] = list(d.children)[1].string
-          info[key] = list(d.children)[1].string.encode('utf-8')
+          info[key] = list(d.children)[1].string
           # Tracer()()
       mil = ""
       for i in info['mileage']:
@@ -161,6 +161,7 @@ class getCarsData:
          # extras = soup.find("div", class_="uk-grid uk-grid-width-medium-1-3").find_all('li')
          extras = soup.find("div", class_="uk-width-1-1 vehicle-detail-equipment-detail").find_all('li')
       except Exception as e1:
+         print("get the extras li items Exception")
          print(e1)
          try:
             extras = soup.find("ul", class_="uk-list-space equipment-list").find('li')
@@ -326,6 +327,7 @@ class getCarsData:
                   info['elspeglar'] = "1"
 
          except Exception as e1:
+           print("the alternative extras Exception")
            print(e1)
 
 
@@ -376,10 +378,11 @@ class getCarsData:
             match = re.search('Modell', key_list[i], flags=re.IGNORECASE)
             if match:
                try:
-                 info['spec'] = soup.find("em").string.encode('utf-8').replace(",",".")
+                 info['spec'] = soup.find("em").string.replace(",",".")
                  # info['spec'] = val_list[i].string.encode('utf-8').strip()
                except Exception as e5:
-                 e5
+                 print("spec Exception")
+                 print(e5)
             match = re.search('F.*rg', key_list[i], flags=re.IGNORECASE)
             if match:
                # print("bla")
@@ -391,7 +394,7 @@ class getCarsData:
                   info["color"] = match.group(1)
             match = re.search('Motorstorlek', key_list[i], flags=re.IGNORECASE)
             if match:
-               info['motor'] = val_list[i].string.encode('utf-8').strip()
+               info['motor'] = val_list[i].string.strip()
                # print("bla")
             else:
                if "NaN" == info['motor']:
@@ -429,6 +432,7 @@ class getCarsData:
 
 
       except Exception as e3:
+         print("big get_volume_hp Exception")
          print(e3)
 
    def initInfo(self):
