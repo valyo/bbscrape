@@ -111,7 +111,11 @@ class getCarsData:
              key = 'regnr'
 
           # info[list(d.children)[3].string] = list(d.children)[1].string
-          info[key] = list(d.children)[1].string.encode('utf-8')
+          try:
+             info[key] = list(d.children)[1].string.encode('utf-8')
+          except Exception as e_key:
+             print("info[key] Exception")
+             print(e_key)
           # Tracer()()
       mil = ""
       for i in info['mileage']:
