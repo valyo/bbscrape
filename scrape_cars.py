@@ -435,71 +435,7 @@ class getCarsData:
          print("big get_volume_hp Exception")
          print(e3)
 
-   def initInfo(self):
-   
-      #################################
-      # define dic to hold the features
-      #################################
 
-      # info = {}
-      info['make'] = "NaN"
-      info['mileage'] = "NaN"
-      info['model'] = "NaN"
-      info['pris'] = "NaN"
-      info['regnr'] = "NaN"
-      info['year'] = "NaN"
-      info['fuel_bensin'] = "0"
-      info['fuel_diesel'] = "0"
-      info['fuel_d_hybrid'] = "0"
-      info['fuel_b_hybrid'] = "0"
-      info['abs'] = "0"
-      info['klima'] = "0"
-      info['dragkrok'] = "0"
-      info['elhissar'] = "0"
-      info['elspeglar'] = "0"
-      info['farthallare'] = "0"
-      info['c-las'] = "0"
-      info['fdator'] = "0"
-      info['alufalg'] = "0"
-      info['multifunktionsratt'] = "0"
-      info['servo'] = "0"
-      info['stolv-fram'] = "0"
-      info['svensks'] = "0"
-      info['ytempm'] = "0"
-      info['muggh'] = "0"
-      info['dimljus'] = "0"
-      info['rattv'] = "0"
-      info['ledheadl'] = "0"
-      info['skin'] = "0"
-      info['lucka'] = "0"
-      info['parkassist'] = "0"
-      info['startstop'] = "0"
-      info['stolminne'] = "0"
-      info['bluetooth'] = "0"
-      info['larm'] = "0"
-      info['motorv'] = "0"
-      info['rails'] = "0"
-      info['vinterd-fr'] = "0"
-      info['vinterd-d'] = "0"
-      info['antisladd'] = "0"
-      info['antispinn'] = "0"
-      info['regnsensor'] = "0"
-      info['xenon'] = "0"
-      info['airbag'] = "0"
-      info['gps'] = "0"
-      info['keyless'] = "0"
-      info['laddhybrid'] = "0"
-      info['spec'] = "NaN"
-      info['itrafik'] = "NaN"
-      info['color'] = "NaN"
-      info['motor'] = "NaN"
-      info['power'] = "NaN"
-      info['co2'] = "NaN"
-      info['eco'] = "NaN"
-      info['vikt'] = "NaN"
-
-      return info
-      
  
 if __name__ == "__main__":
 
@@ -612,9 +548,6 @@ if __name__ == "__main__":
 
 
    for ad in ads:
-
-      # initialize dic holding the features
-      getCarsData.initInfo()
 
       # ad[0] is link_id and ad[1] is the link string
       # print(ad[1])
