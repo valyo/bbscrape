@@ -111,7 +111,7 @@ class getCarsData:
              key = 'regnr'
 
           # info[list(d.children)[3].string] = list(d.children)[1].string
-          info[key] = list(d.children)[1].string
+          info[key] = list(d.children)[1].string.encode('utf-8')
           # Tracer()()
       mil = ""
       for i in info['mileage']:
@@ -378,7 +378,7 @@ class getCarsData:
             match = re.search('Modell', key_list[i], flags=re.IGNORECASE)
             if match:
                try:
-                 info['spec'] = soup.find("em").string.replace(",",".")
+                 info['spec'] = soup.find("em").string.encode('utf-8').replace(",",".")
                  # info['spec'] = val_list[i].string.encode('utf-8').strip()
                except Exception as e5:
                  print("spec Exception")
@@ -394,7 +394,7 @@ class getCarsData:
                   info["color"] = match.group(1)
             match = re.search('Motorstorlek', key_list[i], flags=re.IGNORECASE)
             if match:
-               info['motor'] = val_list[i].string.strip()
+               info['motor'] = val_list[i].string.encode('utf-8').strip().strip()
                # print("bla")
             else:
                if "NaN" == info['motor']:
@@ -617,7 +617,7 @@ if __name__ == "__main__":
       getCarsData.initInfo()
 
       # ad[0] is link_id and ad[1] is the link string
-      print(ad[1])
+      # print(ad[1])
 
       #get the annouce page
       soup = getCarsData.getAdPage(ad[1])
@@ -632,7 +632,7 @@ if __name__ == "__main__":
       else:
 
          # print the add link for debugging
-         # print(ad[1])
+         print(ad[1])
          
          getCarsData.get_details(soup)
          getCarsData.get_volume_hp(soup)
@@ -650,6 +650,7 @@ if __name__ == "__main__":
 
             cur.execute(query, ([ad[0]] + ['{1}'.format(k, v) for k,v in sorted(info.iteritems())]))
             db.commit()
+            # print(ad[1])
          except Exception as e:
             print("INSERT query")
             print(e)
