@@ -112,51 +112,52 @@ class getCarsData:
 
           # info[list(d.children)[3].string] = list(d.children)[1].string
           try:
-             info[key] = list(d.children)[1].string.encode('utf-8')
+            info[key] = list(d.children)[1].string.encode('utf-8')
+       # Tracer()()
+            mil = ""
+            for i in info['mileage']:
+               match = re.search('\d',i)
+               if match:
+                  mil+=i
+            info['mileage'] = mil
+
+            if info['auto'] == 'Automatisk':
+               info['auto'] = "1"
+            else:
+               info['auto'] = "0"
+
+            if info['fuel'] == 'Bensin':
+               info['fuel_bensin'] = "1"
+               info['fuel_diesel'] = "0"
+               info['fuel_d_hybrid'] = "0"
+               info['fuel_b_hybrid'] = "0"
+            elif info['fuel'] == 'Diesel':
+               info['fuel_bensin'] = "0"
+               info['fuel_diesel'] = "1"
+               info['fuel_d_hybrid'] = "0"
+               info['fuel_b_hybrid'] = "0"
+            elif info['fuel'] == 'Hybrid el/diesel':
+               info['fuel_bensin'] = "0"
+               info['fuel_diesel'] = "0"
+               info['fuel_d_hybrid'] = "1"
+               info['fuel_b_hybrid'] = "0"
+            elif info['fuel'] == 'Hybrid el/bensin':
+               info['fuel_bensin'] = "0"
+               info['fuel_diesel'] = "0"
+               info['fuel_d_hybrid'] = "0"
+               info['fuel_b_hybrid'] = "1"
+
+            del info['fuel']
+
+            if info['4wd'] == "4WD":
+               info['4wd'] = "1"
+            else:
+               info['4wd'] = "0"
+
           except Exception as e_key:
-             print("info[key] Exception")
-             print(e_key)
-          # Tracer()()
-      mil = ""
-      for i in info['mileage']:
-         match = re.search('\d',i)
-         if match:
-            mil+=i
-      info['mileage'] = mil
-
-      if info['auto'] == 'Automatisk':
-         info['auto'] = "1"
-      else:
-         info['auto'] = "0"
-
-      if info['fuel'] == 'Bensin':
-         info['fuel_bensin'] = "1"
-         info['fuel_diesel'] = "0"
-         info['fuel_d_hybrid'] = "0"
-         info['fuel_b_hybrid'] = "0"
-      elif info['fuel'] == 'Diesel':
-         info['fuel_bensin'] = "0"
-         info['fuel_diesel'] = "1"
-         info['fuel_d_hybrid'] = "0"
-         info['fuel_b_hybrid'] = "0"
-      elif info['fuel'] == 'Hybrid el/diesel':
-         info['fuel_bensin'] = "0"
-         info['fuel_diesel'] = "0"
-         info['fuel_d_hybrid'] = "1"
-         info['fuel_b_hybrid'] = "0"
-      elif info['fuel'] == 'Hybrid el/bensin':
-         info['fuel_bensin'] = "0"
-         info['fuel_diesel'] = "0"
-         info['fuel_d_hybrid'] = "0"
-         info['fuel_b_hybrid'] = "1"
-
-      del info['fuel']
-
-      if info['4wd'] == "4WD":
-         info['4wd'] = "1"
-      else:
-         info['4wd'] = "0"
-
+            pass
+             # print("info[key] Exception")
+             # print(e_key)
 #################################
 # find the extras and process
 # them
