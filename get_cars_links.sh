@@ -15,8 +15,12 @@ echo "check_ads log" >> $WDIR/cron.log
 $PYTHON $WDIR/check_ads.py >> $WDIR/cron.log 2> $WDIR/cron.err
 
 
+# scrape each link and save what you can in cars_data table
+echo "scrape_cars log" >> $WDIR/cron.log
+$PYTHON $WDIR/scrape_cars.py >> $WDIR/cron.log 2> $WDIR/cron.err
+
+
 # TODO
 # if the above command succeeded
 # make a copy of the DB file with today's date in the filename 
 # check if database copy from y-day exists, if yes: delete it
-#  
