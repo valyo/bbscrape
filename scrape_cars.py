@@ -67,9 +67,11 @@ class getCarsData:
 
 
    def get_details(self, soup):
-      price = soup.find("span", class_="car-price-details").get_text().strip()
-      price = price.split()[0]+price.split()[1]
-      # print "Pris," + price
+      try:
+         price = soup.find("span", class_="car-price-details").get_text().strip()
+         price = price.split()[0]+price.split()[1]
+      except Exception as pris_e:
+         price = "NaN"
       info['pris'] = price
       # Tracer()()
    #################################
