@@ -137,7 +137,6 @@ if __name__ == "__main__":
 
    db.commit()
 
-   print(dir_path)
 
    try:
 
