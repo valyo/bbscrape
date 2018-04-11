@@ -14,7 +14,7 @@ contains the following tables:
 
 ### car_links
 
-|Field | Description      
+|Field      | Description      
 | --------- | ------------
 | link_id   | a PRIMARY KEY id
 | link      | the actual ad link
@@ -22,7 +22,10 @@ contains the following tables:
 | annons_id | a "n" or "y" flag indicating if the ad is already scraped; set to "n" when link collected
 end_date | the date on which check_ads.py finds that the ad is missing from bytbil.com
 
-New links are added to this table by get_links.py with default **annons_id**="n" and an empty **end_date**
+*get_links.py* inserts new links into this table with default **annons_id**="n" and an empty **end_date**
+*check_ads.py* updates records where the **link** points to expired ad, by setting **end_date** to the current date
+
+
 
 ### cars_data
 
