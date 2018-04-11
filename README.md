@@ -23,6 +23,7 @@ contains the following tables:
 end_date | the date on which check_ads.py finds that the ad is missing from bytbil.com
 
 *get_links.py* inserts new links into this table with default **annons_id**="n" and an empty **end_date**
+
 *check_ads.py* updates records where the **link** points to expired ad, by setting **end_date** to the current date
 
 
