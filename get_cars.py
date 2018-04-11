@@ -130,8 +130,7 @@ if __name__ == "__main__":
                c += 1
             except Exception as e:
                
-               # print e
-               print link
+               print e, link
                stop = True
       time.sleep(randint(1, 9))
 
