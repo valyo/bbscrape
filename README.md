@@ -16,10 +16,10 @@ contains the following tables:
 
 Field | Description
 --- | ---
-link_id | an ID 
+link_id | a PRIMARY KEY id
 link | the actual ad link
 date | date of collecting
-annons_id | a "n" or "y" flag indicating if the ad is already scraped
+annons_id | a "n" or "y" flag indicating if the ad is already scraped; set to "n" when link collected
 end_date | the date on which check_ads.py finds that the ad is missing from bytbil.com
 
 
