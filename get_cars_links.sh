@@ -6,7 +6,7 @@ WDIR="$HOME/bytbil.com"
 
 # scrape bytbil.com page-by-page and add new ads links to DB
 echo "get_cars log" > $WDIR/cron.log
-$PYTHON $WDIR/get_cars.py >> $WDIR/cron.log 2> $WDIR/cron.err
+$PYTHON $WDIR/get_links.py >> $WDIR/cron.log 2> $WDIR/cron.err
 
 
 # check for ads that have gone away and set end_date
