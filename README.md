@@ -38,4 +38,9 @@ feature 2 | ...
 ... | ...
 feature N | last feature
 
+*scrape_cars.py* inserts new records in the following way:
+
+	1. select all entries from car_links where **annons_id**="n"
+	2. for each link that does point to an existing ad: scrape as much as possible and insert a record in cars_data
+	3. if the INSERT query is successful, UPDATE car_links by setting **annons_id**="y" for the record with the corresponding **ink_id**
 
